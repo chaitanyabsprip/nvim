@@ -212,7 +212,51 @@ config.setup = function()
     vim.g.ftplugin_sql_omni_key = '<c-a>'
 end
 
+-- mirror the live buffer to a temp file so `leaf -w` reloads on every edit
+-- (nvim wipes its tempdir on exit; relative image paths won't resolve from there)
+local leaf_mirrors = {}
+local function leaf_mirror(buf)
+    if leaf_mirrors[buf] then return leaf_mirrors[buf] end
+    local dir = vim.fn.tempname()
+    vim.fn.mkdir(dir, 'p')
+    local mirror = dir .. '/' .. vim.fs.basename(vim.api.nvim_buf_get_name(buf))
+    leaf_mirrors[buf] = mirror
+    local group = vim.api.nvim_create_augroup('leaf_preview_' .. buf, { clear = true })
+    local function sync() vim.fn.writefile(vim.api.nvim_buf_get_lines(buf, 0, -1, false), mirror) end
+    sync()
+    vim.api.nvim_create_autocmd({ 'TextChanged', 'TextChangedI' }, { group = group, buffer = buf, callback = sync })
+    vim.api.nvim_create_autocmd('BufUnload', {
+        group = group,
+        buffer = buf,
+        callback = function()
+            os.remove(mirror)
+            leaf_mirrors[buf] = nil
+        end,
+    })
+    return mirror
+end
+
+local leaf_targets = {
+    float = { 'display-popup', '-E', '-w', '90%', '-h', '90%' },
+    window = { 'new-window' },
+    split = { 'split-window', '-v' },
+    vsplit = { 'split-window', '-h' },
+}
+
 config.commands = function()
+    vim.api.nvim_create_user_command('Leaf', function(args)
+        local target = leaf_targets[args.args ~= '' and args.args or 'float']
+        if not target then return vim.notify('Unknown target: ' .. args.args, vim.log.levels.ERROR) end
+        if vim.env.TMUX == nil then return vim.notify('Not inside tmux', vim.log.levels.WARN) end
+        if vim.api.nvim_buf_get_name(0) == '' then return vim.notify('No file in buffer', vim.log.levels.WARN) end
+        local cmd = vim.list_extend({ 'tmux' }, target)
+        table.insert(cmd, 'leaf -w ' .. vim.fn.shellescape(leaf_mirror(0)))
+        vim.system(cmd)
+    end, {
+        nargs = '?',
+        desc = 'Preview current markdown file with leaf in tmux',
+        complete = function() return vim.tbl_keys(leaf_targets) end,
+    })
     vim.api.nvim_create_user_command(
         'Vnew',
         'vnew | setlocal nobuflisted buftype=nofile bufhidden=wipe noswapfile',

@@ -189,6 +189,8 @@ function keymaps.lazy()
     keymap.set('v', 'ge', 'dO```sh<esc>o```<esc>kpkw', opts 'Wrap selection in code block')
     keymap.set('n', ',,', require('alternate').gotoAltBuffer, opts 'Switch to Alternate buffer')
 
+    keymap.set('n', '<leader>ot', '<cmd>Leaf window<cr>', opts 'Leaf (Markdown Preview in tmux)')
+
     keymap.del('n', 'grr')
     keymap.del({ 'x', 'n' }, 'gra')
     keymap.del('n', 'grn')
