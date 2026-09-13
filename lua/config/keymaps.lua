@@ -190,6 +190,7 @@ function keymaps.lazy()
     keymap.set('n', ',,', require('alternate').gotoAltBuffer, opts 'Switch to Alternate buffer')
 
     keymap.set('n', '<leader>ot', '<cmd>Leaf window<cr>', opts 'Leaf (Markdown Preview in tmux)')
+    keymap.set('n', '<leader>of', '<cmd>Leaf float<cr>', opts 'Leaf (Markdown Preview in tmux popup)')
 
     keymap.del('n', 'grr')
     keymap.del({ 'x', 'n' }, 'gra')
