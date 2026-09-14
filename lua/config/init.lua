@@ -216,6 +216,7 @@ end
 -- (nvim wipes its tempdir on exit; relative image paths won't resolve from there)
 local leaf_mirrors = {}
 local function leaf_mirror(buf)
+    if buf == 0 then buf = vim.api.nvim_get_current_buf() end
     if leaf_mirrors[buf] then return leaf_mirrors[buf] end
     local dir = vim.fn.tempname()
     vim.fn.mkdir(dir, 'p')
