@@ -33,7 +33,13 @@ return {
                 'sources',
                 ---@param builtins NullBuiltin
                 function(builtins)
-                    return { builtins.diagnostics.dotenv_linter.with { filetypes = { 'dotenv' } } }
+                    return {
+                        builtins.diagnostics.dotenv_linter.with {
+                            filetypes = { 'dotenv' },
+                            -- dotenv-linter v4 moved linting behind the `check` subcommand
+                            args = { 'check', '--plain', '-q', '$FILENAME' },
+                        },
+                    }
                 end
             )
         end,
