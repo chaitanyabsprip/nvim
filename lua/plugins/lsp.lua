@@ -161,7 +161,6 @@ return {
                     mason_ensure_installed(opts)
                 end,
             },
-            'williamboman/mason-lspconfig.nvim',
         },
         config = function(_, opts)
             local lspconfig = require 'lspconfig'

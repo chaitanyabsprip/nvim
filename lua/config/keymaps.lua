@@ -173,7 +173,7 @@ function keymaps.lazy()
         vim.cmd [[copen 12]]
     end, opts())
 
-    cowboy { 'oil', 'qf', 'help', 'noice', 'lazy', 'dbout' }
+    cowboy { 'oil', 'qf', 'help', 'lazy', 'dbout' }
     keymap.set('n', 'X', buf_kill, opts 'Close current buffer')
     -- keymap.set('n', '<c-w>z', toggle_win_zoom(), opts 'Toggle window zoom')
     -- keymap.set('n', 'gz', toggle_win_zoom(), opts 'Toggle window zoom')

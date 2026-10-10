@@ -43,10 +43,6 @@ M.lualine = {
         local function navic_is_available()
             return package.loaded['nvim-navic'] and require('nvim-navic').is_available()
         end
-        local cmd_mode = function() return require('noice').api.status.mode.get() end
-        local show_mode = function()
-            return package.loaded['noice'] and require('noice').api.status.mode.has() or ''
-        end
         return {
             options = {
                 component_separators = { '', '' },
@@ -64,7 +60,7 @@ M.lualine = {
                     { navic, cond = navic_is_available },
                     { get_lsp_client, icon = '' },
                 },
-                lualine_x = { { cmd_mode, cond = show_mode } },
+                lualine_x = {},
                 lualine_y = {
                     { wordcount, cond = is_markdown },
                     { readingtime, cond = is_markdown },

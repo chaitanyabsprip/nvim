@@ -17,13 +17,7 @@ lsp.listLspCapabilities = function()
         end
         table.sort(capAsList) -- sorts alphabetically
         local msg = '# ' .. client.name .. '\n' .. table.concat(capAsList, '\n')
-        vim.notify(msg, vim.log.levels.INFO, {
-            on_open = function(win)
-                local buf = vim.api.nvim_win_get_buf(win)
-                vim.api.nvim_set_option_value('filetype', 'markdown', { buf = buf })
-            end,
-            timeout = 14000,
-        })
+        vim.notify(msg, vim.log.levels.INFO)
     end
 end
 
