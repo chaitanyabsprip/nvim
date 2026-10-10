@@ -139,9 +139,13 @@ capabilities.formatting = {
     end,
 }
 
-capabilities.hover = {
-    name = 'textDocument/hover',
-    callback = function() end,
+capabilities.folding_range = {
+    name = 'textDocument/foldingRange',
+    callback = function(_, bufnr)
+        for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
+            vim.wo[win][0].foldexpr = vim.lsp.foldexpr
+        end
+    end,
 }
 
 capabilities.implementation = {

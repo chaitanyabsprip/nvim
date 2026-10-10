@@ -65,6 +65,17 @@ function config.autocommands()
         callback = function() require('search_highlight').setup() end,
     })
 
+    -- LspAttach is too late: didOpen is notified just before it
+    autocmd('LspNotify', {
+        group = augroup 'fold-imports',
+        callback = function(ev)
+            if ev.data.method ~= 'textDocument/didOpen' then return end
+            local win = vim.fn.bufwinid(ev.buf)
+            vim.lsp.foldclose('imports', win)
+            vim.lsp.foldclose('comment', win)
+        end,
+    })
+
     autocmd('LspAttach', {
         group = augroup 'list-lsp-capabilities',
         callback = function()
@@ -181,6 +192,8 @@ config.setup = function()
     vim.o.foldlevel = 99
     vim.o.foldlevelstart = 99
     vim.o.foldmethod = 'expr'
+    vim.o.foldexpr = vim.treesitter.foldexpr -- lsp.foldexpr takes over per window on attach
+    vim.o.foldtext = vim.lsp.foldtext
 
     -- diff mode
     vim.opt.diffopt =

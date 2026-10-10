@@ -19,6 +19,7 @@ local highlight = {
     Comment = { fg = 'highlight_med', italic = true },
     CurSearch = { fg = 'base', bg = 'leaf', inherit = false },
     Search = { fg = 'text', bg = 'leaf', blend = 20, inherit = false },
+    Folded = { fg = 'highlight_med', italic = true },
     BlinkCmpMenu = { bg = base, fg = 'text' },
     BlinkCmpMenuSelection = { bg = hlt },
     BlinkCmpScrollBarThumb = { bg = 'highlight_low' },

@@ -28,10 +28,7 @@ lsp.listLspCapabilities = function()
 end
 
 lsp.capabilities = function(_)
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    -- for nvim-ufo
-    capabilities.textDocument.foldingRange = { dynamicRegistration = false, lineFoldingOnly = true }
-    return capabilities
+    return vim.lsp.protocol.make_client_capabilities()
 end
 
 ---@param client vim.lsp.Client
