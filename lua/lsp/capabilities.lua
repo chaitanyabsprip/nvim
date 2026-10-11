@@ -53,11 +53,7 @@ capabilities.code_lens = {
             noremap = true,
             silent = true,
         })
-        autocmd({ 'BufEnter', 'InsertLeave', 'CursorHold' }, {
-            group = augroup 'lsp_codelens_refresh',
-            buffer = bufnr,
-            callback = function() vim.lsp.codelens.refresh { bufnr = bufnr } end,
-        })
+        vim.lsp.codelens.enable(true, { bufnr = bufnr })
     end,
 }
 

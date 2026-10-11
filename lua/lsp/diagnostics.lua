@@ -125,13 +125,14 @@ function diagnostics.on_attach(_, bufnr)
         noremap = true,
         silent = true,
     })
-    vim.keymap.set('n', ',n', fn(vim.diagnostic.jump, { count = 1, float = true }), {
+    local function on_jump(_, buf) vim.diagnostic.open_float { bufnr = buf } end
+    vim.keymap.set('n', ',n', fn(vim.diagnostic.jump, { count = 1, on_jump = on_jump }), {
         buffer = bufnr,
         desc = 'Go to the next diagnostic',
         noremap = true,
         silent = true,
     })
-    vim.keymap.set('n', ',p', fn(vim.diagnostic.jump, { count = -1, float = true }), {
+    vim.keymap.set('n', ',p', fn(vim.diagnostic.jump, { count = -1, on_jump = on_jump }), {
         buffer = bufnr,
         desc = 'Go to the previous diagnostic',
         noremap = true,

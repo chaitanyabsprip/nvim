@@ -35,13 +35,12 @@ end
 ---@type LazySpec
 M.spec = {
     'akinsho/flutter-tools.nvim',
-    cond = function() return vim.loop.fs_stat 'pubspec.yaml' ~= nil end,
+    cond = function() return vim.uv.fs_stat 'pubspec.yaml' ~= nil end,
     dependencies = { 'nvim-telescope/telescope.nvim' },
     event = 'VeryLazy',
     -- ft = { 'dart', 'yaml' },
     opts = function()
         local get_capabilities = require('plugins.completion').get_capabilities
-        local lspconfig = require 'lspconfig'
         local init_options = {
             onlyAnalyzeProjectsWithOpenFiles = false,
             suggestFromUnimportedLibraries = true,
@@ -49,8 +48,6 @@ M.spec = {
             outline = false,
             flutterOutline = false,
         }
-        local root_dir =
-            lspconfig.util.root_pattern('.git', '.gitignore', 'pubspec.yaml', vim.fn.getcwd())
         local settings = {
             completeFunctionCalls = true,
             enableSnippets = true,
@@ -101,7 +98,6 @@ M.spec = {
                     vim.defer_fn(function() require('lsp').on_attach(c, b) end, 1000)
                 end,
                 init_options = init_options,
-                root_dir = root_dir,
                 settings = settings,
             },
             ui = { border = 'rounded', notification_style = 'native' },

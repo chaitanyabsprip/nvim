@@ -97,7 +97,7 @@ return {
         config = function()
             ---@type string
             local link_path = vim.env.MASON .. '/bin/debugpy'
-            local real_path = vim.fn.fnamemodify(vim.loop.fs_realpath(link_path) or '', ':h')
+            local real_path = vim.fn.fnamemodify(vim.uv.fs_realpath(link_path) or '', ':h')
             local debugpy_path = real_path .. '/venv/bin/python'
             require('dap-python').setup(debugpy_path, {})
         end,

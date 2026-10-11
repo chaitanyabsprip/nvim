@@ -1,7 +1,7 @@
 local M = {}
 
 function M.debounce(ms, fn)
-    local timer = vim.loop.new_timer()
+    local timer = vim.uv.new_timer()
     return function(...)
         local argv = { ... }
         assert(timer ~= nil, 'time must not be nil')
@@ -13,7 +13,7 @@ function M.debounce(ms, fn)
 end
 
 function M.throttle(ms, fn)
-    local timer = vim.loop.new_timer()
+    local timer = vim.uv.new_timer()
     local running = false
     return function(...)
         if not running then

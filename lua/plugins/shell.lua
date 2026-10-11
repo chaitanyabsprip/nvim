@@ -64,6 +64,6 @@ return {
     {
         'dag/vim-fish',
         ft = 'fish',
-        cond = function() return vim.loop.fs_stat 'config.fish' end,
+        cond = function() return vim.uv.fs_stat 'config.fish' end,
     },
 }

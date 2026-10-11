@@ -20,7 +20,7 @@ local function cowboy(disabled_ft)
     local ok = true
     for _, key in ipairs { 'h', 'j', 'k', 'l', 'w', 'b' } do
         local count = 0
-        local timer = assert(vim.loop.new_timer())
+        local timer = assert(vim.uv.new_timer())
         local map = key
         vim.keymap.set('n', key, function()
             if table.contains(disabled_ft, vim.bo.filetype) then return map end
