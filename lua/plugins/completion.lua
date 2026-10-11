@@ -15,9 +15,9 @@ return {
             completion = {
                 documentation = { auto_show = true, window = { border = 'none' } },
                 menu = {
-                    border = 'rounded',
+                    border = 'none',
                     draw = {
-                        padding = { 0, 1 }, -- padding only on right side
+                        padding = { 0, 1 },
                         components = {
                             kind_icon = {
                                 text = function(ctx)
