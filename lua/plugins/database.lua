@@ -76,26 +76,4 @@ return {
         dependencies = { 'kristijanhusak/vim-dadbod-completion' },
         cmd = 'DB',
     },
-    {
-        'kndndrj/nvim-dbee',
-        dependencies = { 'MunifTanjim/nui.nvim' },
-        build = function()
-            -- Install tries to automatically detect the install method.
-            -- if it fails, try calling it with one of these parameters:
-            --    "curl", "wget", "bitsadmin", "go"
-            require('dbee').install()
-        end,
-        config = function()
-            require('dbee').setup(--[[optional config]])
-        end,
-        enabled = false,
-        keys = {
-            {
-                '<leader>db',
-                function() require('dbee').toggle() end,
-                noremap = true,
-                silent = true,
-            },
-        },
-    },
 }

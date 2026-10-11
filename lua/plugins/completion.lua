@@ -137,17 +137,5 @@ return {
             -- copilot_model = 'gpt-41-copilot',
         },
     },
-    {
-        'yetone/avante.nvim',
-        build = 'make',
-        enabled = false,
-        event = 'VeryLazy',
-        version = false, -- Never set this value to "*"! Never!
-        dependencies = {
-            'nvim-lua/plenary.nvim',
-            'MunifTanjim/nui.nvim',
-        },
-        opts = { provider = 'copilot' },
-    },
     get_capabilities = require('lsp').capabilities,
 }
