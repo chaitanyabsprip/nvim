@@ -22,6 +22,14 @@ local highlight = {
     Folded = { fg = 'highlight_med', italic = true },
     BlinkCmpMenu = { bg = base, fg = 'text' },
     BlinkCmpMenuSelection = { bg = hlt },
+    -- blink links these to Pmenu/NormalFloat, whose bg is lighter than the
+    -- menu's, which frames every window in a visibly paler band
+    BlinkCmpMenuBorder = { fg = border, bg = base },
+    BlinkCmpDoc = { bg = base, fg = 'text' },
+    BlinkCmpDocBorder = { fg = border, bg = base },
+    BlinkCmpDocSeparator = { fg = border, bg = base },
+    BlinkCmpSignatureHelp = { bg = base, fg = 'text' },
+    BlinkCmpSignatureHelpBorder = { fg = border, bg = base },
     BlinkCmpScrollBarThumb = { bg = 'highlight_low' },
     BlinkCmpScrollBarGutter = { bg = base_alt },
     BlinkCmpLabelMatch = { fg = 'subtle' },

@@ -13,8 +13,9 @@ return {
             keymap = { preset = 'default' },
             appearance = { nerd_font_variant = 'mono' },
             completion = {
-                documentation = { auto_show = true },
+                documentation = { auto_show = true, window = { border = 'none' } },
                 menu = {
+                    border = 'rounded',
                     draw = {
                         padding = { 0, 1 }, -- padding only on right side
                         components = {
@@ -46,7 +47,10 @@ return {
                     return { 'lsp', 'path', 'cmdline' }
                 end,
             },
-            signature = { enabled = true, window = { show_documentation = true } },
+            signature = {
+                enabled = true,
+                window = { show_documentation = true, border = 'none' },
+            },
         },
     },
     { 'Alexisvt/flutter-snippets', ft = { 'dart' } },
