@@ -172,6 +172,32 @@ capabilities.inlay_hints = {
     end,
 }
 
+capabilities.inline_completion = {
+    name = 'textDocument/inlineCompletion',
+    callback = function(_, bufnr)
+        vim.lsp.inline_completion.enable(true, { bufnr = bufnr })
+        vim.keymap.set('i', '<Tab>', function()
+            if not vim.lsp.inline_completion.get() then return '<Tab>' end
+        end, {
+            buffer = bufnr,
+            desc = 'Accept the current inline completion',
+            expr = true,
+            noremap = true,
+            silent = true,
+        })
+    end,
+}
+
+capabilities.linked_editing_range = {
+    name = 'textDocument/linkedEditingRange',
+    callback = function(_, bufnr) vim.lsp.linked_editing_range.enable(true, { bufnr = bufnr }) end,
+}
+
+capabilities.on_type_formatting = {
+    name = 'textDocument/onTypeFormatting',
+    callback = function(_, bufnr) vim.lsp.on_type_formatting.enable(true, { bufnr = bufnr }) end,
+}
+
 ---@param bufnr integer
 ---@param mode "v"|"V"
 ---@return table {start={row,col}, end={row,col}} using (1, 0) indexing
@@ -240,7 +266,7 @@ capabilities.rename = {
     name = 'textDocument/rename',
     callback = function(client, bufnr)
         if client.name == 'dartls' then
-            vim.keymap.set('n', 'gR', '<cmd>FlutterRename<cr>', {
+            return vim.keymap.set('n', 'gR', '<cmd>FlutterRename<cr>', {
                 buffer = bufnr,
                 desc = 'Flutter: Rename variable and related imports',
                 noremap = true,

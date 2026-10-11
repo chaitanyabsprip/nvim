@@ -1,17 +1,9 @@
 ---@type LazySpec[]
 return {
     {
+        -- blink drives this via sources.per_filetype.sql
         'kristijanhusak/vim-dadbod-completion',
-        dependencies = { 'hrsh7th/nvim-cmp' },
         ft = { 'sql', 'mysql', 'plsql' },
-        config = function()
-            require('cmp').setup.filetype({ 'sql' }, {
-                sources = {
-                    { name = 'vim-dadbod-completion' },
-                    { name = 'buffer' },
-                },
-            })
-        end,
     },
     {
         'kristijanhusak/vim-dadbod-ui',

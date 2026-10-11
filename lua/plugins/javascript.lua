@@ -60,17 +60,9 @@ return {
         dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
         ft = { 'javascript', 'typescript', 'typescriptreact', 'javascriptreact' },
         opts = function()
-            ---@type table<string, fun()>
-            local handlers = {}
-            for _, factory in pairs(require('lsp.handlers').handlers) do
-                local handler = factory()
-                if handler == nil then return end
-                handlers[handler.name] = handler.callback
-            end
             return {
                 config = {
                     on_attach = require('lsp').on_attach,
-                    handlers = handlers,
                 },
                 settings = {
                     separate_diagnostic_server = true,

@@ -137,5 +137,9 @@ return {
             -- copilot_model = 'gpt-41-copilot',
         },
     },
-    get_capabilities = require('lsp').capabilities,
+    -- blink's own capabilities on top of the nvim defaults, so servers actually
+    -- hear about the completion features it implements
+    get_capabilities = function(override)
+        return require('blink.cmp').get_lsp_capabilities(override)
+    end,
 }

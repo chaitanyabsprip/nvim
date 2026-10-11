@@ -158,6 +158,7 @@ config.setup = function()
     vim.o.statusline = string.format(' %s%s ', '%f', rulerformat)
     vim.o.splitbelow = true
     vim.o.splitright = true
+    vim.o.winborder = 'rounded'
 
     -- multiple tab pages
     vim.go.tabline = [[%!v:lua.require'config.tabline'.tabline()]]
@@ -196,8 +197,7 @@ config.setup = function()
     vim.o.foldtext = vim.lsp.foldtext
 
     -- diff mode
-    vim.opt.diffopt =
-        { 'internal', 'filler', 'closeoff', 'algorithm:histogram', 'indent-heuristic' }
+    vim.opt.diffopt:append { 'algorithm:histogram', 'indent-heuristic' }
 
     -- reading and writing files
     vim.o.modeline = false
@@ -223,6 +223,26 @@ config.setup = function()
 
     -- sql plugin opts
     vim.g.ftplugin_sql_omni_key = '<c-a>'
+
+    -- diagnostics (global, not per-server: pull-diagnostic servers never hit a
+    -- publishDiagnostics handler)
+    local severity = vim.diagnostic.severity
+    vim.diagnostic.config {
+        underline = true,
+        virtual_lines = true,
+        virtual_text = false,
+        signs = {
+            text = {
+                [severity.ERROR] = '',
+                [severity.WARN] = '',
+                [severity.HINT] = '',
+                [severity.INFO] = '',
+            },
+        },
+        float = { source = true, header = 'Diagnostics', severity_sort = true },
+        update_in_insert = false,
+        severity_sort = true,
+    }
 end
 
 -- mirror the live buffer to a temp file so `leaf -w` reloads on every edit

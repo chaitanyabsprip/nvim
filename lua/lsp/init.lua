@@ -21,16 +21,11 @@ lsp.listLspCapabilities = function()
     end
 end
 
-lsp.capabilities = function(_)
-    return vim.lsp.protocol.make_client_capabilities()
-end
-
 ---@param client vim.lsp.Client
 ---@param bufnr number
 lsp.on_attach = function(client, bufnr)
     require('lsp.diagnostics').on_attach(client, bufnr)
     require('lsp.capabilities').resolve(client, bufnr)
-    require('lsp.handlers').resolve(client, bufnr)
 end
 
 return lsp
