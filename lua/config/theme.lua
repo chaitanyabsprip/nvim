@@ -2,7 +2,6 @@ return {
     theme = 'rosepine',
     transparent = false,
     hide_eob = true,
-    strings = {},
     sidebars = {
         'UltestSummary',
         'terminal',
