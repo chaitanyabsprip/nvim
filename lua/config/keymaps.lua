@@ -83,10 +83,8 @@ local function opts(desc)
 end
 
 keymaps.setup = function()
-    -- Leader bindings
+    -- leader is set in init.lua, before lazy loads
     keymap.set('n', '<Space>', '<NOP>', opts())
-    vim.g.mapleader = ' '
-
     keymap.set('n', '<leader>q', '<cmd>q<cr>', opts 'Close window (:q)')
     keymap.set('i', '<c-c>', '<NOP>', opts 'To not be annoyed by the <c-c> messages all the time')
     keymap.set('x', '<c-c>', '<NOP>', opts 'To not be annoyed by the <c-c> messages all the time')
