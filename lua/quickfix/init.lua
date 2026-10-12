@@ -33,7 +33,7 @@ function qf.toggle_ll()
     for _, info in ipairs(vim.fn.getwininfo()) do
         if info.loclist == 1 then return vim.cmd 'lclose' end
     end
-    if next(vim.fn.getloclist(0)) == nil then return vim.noitfy 'loc list empty' end
+    if next(vim.fn.getloclist(0)) == nil then return vim.notify 'loc list empty' end
     vim.cmd 'lopen'
 end
 
