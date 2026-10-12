@@ -51,93 +51,45 @@ local function get_diagnostics(bufnr, severity)
 end
 
 function diagnostics.on_attach(_, bufnr)
-    local workspace_errors = get_diagnostics(nil, vim.diagnostic.severity.ERROR)
-    local workspace_warnings = get_diagnostics(nil, vim.diagnostic.severity.WARN)
-    local workspace_infos = get_diagnostics(nil, vim.diagnostic.severity.INFO)
-    local workspace_hints = get_diagnostics(nil, vim.diagnostic.severity.HINT)
-    local document_errors = get_diagnostics(bufnr, vim.diagnostic.severity.ERROR)
-    local document_warnings = get_diagnostics(bufnr, vim.diagnostic.severity.WARN)
-    local document_infos = get_diagnostics(bufnr, vim.diagnostic.severity.INFO)
-    local document_hints = get_diagnostics(bufnr, vim.diagnostic.severity.HINT)
-    vim.keymap.set('n', ',D', (get_diagnostics()), {
-        buf = bufnr,
-        desc = 'Enlist all workspace diagnostics in quickfix',
-        noremap = true,
-        silent = true,
-    })
-    vim.keymap.set('n', ',d', (get_diagnostics(bufnr)), {
-        buf = bufnr,
-        desc = 'Enlist all document diagnostics in quickfix',
-        noremap = true,
-        silent = true,
-    })
-    vim.keymap.set('n', ',E', workspace_errors, {
-        buf = bufnr,
-        desc = 'Enlist workspace error diagnostics in quickfix',
-        noremap = true,
-        silent = true,
-    })
-    vim.keymap.set('n', ',W', workspace_warnings, {
-        buf = bufnr,
-        desc = 'Enlist workspace warning diagnostics in quickfix',
-        noremap = true,
-        silent = true,
-    })
-    vim.keymap.set('n', ',I', workspace_infos, {
-        buf = bufnr,
-        desc = 'Enlist workspace info diagnostics in quickfix',
-        noremap = true,
-        silent = true,
-    })
-    vim.keymap.set('n', ',H', workspace_hints, {
-        buf = bufnr,
-        desc = 'Enlist workspace hint diagnostics in quickfix',
-        noremap = true,
-        silent = true,
-    })
-    vim.keymap.set('n', ',e', document_errors, {
-        buf = bufnr,
-        desc = 'Enlist document error diagnostics in quickfix',
-        noremap = true,
-        silent = true,
-    })
-    vim.keymap.set('n', ',w', document_warnings, {
-        buf = bufnr,
-        desc = 'Enlist document warning diagnostics in quickfix',
-        noremap = true,
-        silent = true,
-    })
-    vim.keymap.set('n', ',i', document_infos, {
-        buf = bufnr,
-        desc = 'Enlist document info diagnostics in quickfix',
-        noremap = true,
-        silent = true,
-    })
-    vim.keymap.set('n', ',h', document_hints, {
-        buf = bufnr,
-        desc = 'Enlist document hint diagnostics in quickfix',
-        noremap = true,
-        silent = true,
-    })
-    vim.keymap.set('n', ',l', vim.diagnostic.open_float, {
-        buf = bufnr,
-        desc = 'Show current line diagnostics in a floating window',
-        noremap = true,
-        silent = true,
-    })
+    local function map(lhs, rhs, desc)
+        vim.keymap.set('n', lhs, rhs, { buf = bufnr, desc = desc, silent = true })
+    end
+
+    -- ,<upper> lists the whole workspace, ,<lower> the current document
+    for _, entry in ipairs {
+        { 'D' },
+        { 'E', 'ERROR' },
+        { 'W', 'WARN' },
+        { 'I', 'INFO' },
+        { 'H', 'HINT' },
+    } do
+        local key, name = entry[1], entry[2]
+        local severity = name and vim.diagnostic.severity[name]
+        local what = name and name:lower() or 'all'
+        map(
+            ',' .. key,
+            get_diagnostics(nil, severity),
+            ('Enlist %s workspace diagnostics in quickfix'):format(what)
+        )
+        map(
+            ',' .. key:lower(),
+            get_diagnostics(bufnr, severity),
+            ('Enlist %s document diagnostics in quickfix'):format(what)
+        )
+    end
+
+    map(',l', vim.diagnostic.open_float, 'Show current line diagnostics in a floating window')
     local function on_jump(_, buf) vim.diagnostic.open_float { bufnr = buf } end
-    vim.keymap.set('n', ',n', fn(vim.diagnostic.jump, { count = 1, on_jump = on_jump }), {
-        buf = bufnr,
-        desc = 'Go to the next diagnostic',
-        noremap = true,
-        silent = true,
-    })
-    vim.keymap.set('n', ',p', fn(vim.diagnostic.jump, { count = -1, on_jump = on_jump }), {
-        buf = bufnr,
-        desc = 'Go to the previous diagnostic',
-        noremap = true,
-        silent = true,
-    })
+    map(
+        ',n',
+        fn(vim.diagnostic.jump, { count = 1, on_jump = on_jump }),
+        'Go to the next diagnostic'
+    )
+    map(
+        ',p',
+        fn(vim.diagnostic.jump, { count = -1, on_jump = on_jump }),
+        'Go to the previous diagnostic'
+    )
 
     local group = vim.api.nvim_create_augroup('update_diagnostics', { clear = true })
     vim.api.nvim_create_autocmd('DiagnosticChanged', {
