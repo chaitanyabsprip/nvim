@@ -64,7 +64,7 @@ local function buf_kill(target_buf, should_force)
     for i, buf in ipairs(buffers) do
         if buf.bufnr == target_buf then
             windows = buf.windows
-            nextbuf = buffers[(i - 1 + 1) % #buffers + 1].bufnr
+            nextbuf = buffers[i % #buffers + 1].bufnr
             break
         end
     end
