@@ -20,7 +20,6 @@ return {
                 sidebars = 'dark',
                 floats = 'dark',
             },
-            sidebars = config.sidebars,
             day_brightness = 0.3,
             hide_inactive_statusline = false,
             dim_inactive = false,
