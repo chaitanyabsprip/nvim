@@ -5,10 +5,12 @@
 
 ---@type table<string,Capability>
 local capabilities = {}
-local augroup = function(group) vim.api.nvim_create_augroup(group, { clear = true }) end
-local autocmd = function(event, opts)
-    if not opts.disable then vim.api.nvim_create_autocmd(event, opts) end
-end
+-- created once, not per attach: `clear = true` inside a callback would wipe the
+-- autocmds of every buffer that attached before this one
+local document_highlight =
+    vim.api.nvim_create_augroup('lsp_document_highlight', { clear = true })
+local auto_format = vim.api.nvim_create_augroup('auto_format', { clear = true })
+local autocmd = vim.api.nvim_create_autocmd
 local lsp = vim.lsp.buf
 
 ---@param opts LspFormat
@@ -95,12 +97,12 @@ capabilities.document_highlight = {
         hl(0, 'LspReferenceText', bold)
         hl(0, 'LspReferenceWrite', bold)
         autocmd('CursorHold', {
-            group = augroup 'lsp_document_highlight',
+            group = document_highlight,
             buffer = bufnr,
             callback = function() vim.lsp.buf.document_highlight() end,
         })
         autocmd('CursorMoved', {
-            group = augroup 'lsp_document_highlight',
+            group = document_highlight,
             buffer = bufnr,
             callback = function() vim.lsp.buf.clear_references() end,
         })
@@ -111,7 +113,7 @@ capabilities.formatting = {
     name = 'textDocument/formatting',
     callback = function(_, bufnr)
         autocmd('BufWritePre', {
-            group = augroup 'auto_format',
+            group = auto_format,
             buffer = bufnr,
             callback = function()
                 format {
