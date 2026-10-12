@@ -173,9 +173,9 @@ function keymaps.lazy()
         opts 'Leaf (Markdown Preview in tmux popup)'
     )
 
-    keymap.del('n', 'grr')
+    -- gra only: <leader>a replaces it with fastaction. grr and grn keep the
+    -- builtins, nothing else maps references or rename.
     keymap.del({ 'x', 'n' }, 'gra')
-    keymap.del('n', 'grn')
 end
 
 return keymaps
