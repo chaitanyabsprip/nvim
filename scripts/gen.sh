@@ -1,6 +1,6 @@
 #!/bin/bash
 
-depends eza || exit 1
+depends tree || exit 1
 
 main() {
 	gen_manifest
@@ -14,14 +14,13 @@ gentree() {
 }
 
 gen_manifest() {
-	echo "[" >files.json
-	find .. -type d -name ".git" -prune -o -type f \( \
-		-name "*.lua" -o -name "*.scm" -o -name "*.vim" \
-		\) -print | sort | while read -r file; do
-		echo "  \"$file\"," >>files.json
-	done
-	sed -i '' '$ s/,$//' files.json
-	echo "]" >>files.json
+	{
+		echo "["
+		find .. -type d -name ".git" -prune -o -type f \( \
+			-name "*.lua" -o -name "*.scm" -o -name "*.vim" \
+			\) -print | sort | sed -e 's/.*/  "&",/' -e '$ s/,$//'
+		echo "]"
+	} >files.json
 }
 
 main "$@"
