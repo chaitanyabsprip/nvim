@@ -11,7 +11,24 @@ return {
         'nvim-treesitter/nvim-treesitter',
         optional = true,
         opts = function(_, opts)
+            -- not a grammar nvim-treesitter ships; config registers it before
+            -- install() asks for it
+            opts.parsers = opts.parsers or {}
+            opts.parsers.dotenv = {
+                install_info = { url = 'https://github.com/pnx/tree-sitter-dotenv' },
+                tier = 3,
+            }
             require('config.lazy').extend_opts_list(opts, 'ensure_installed', 'dotenv')
+        end,
+        -- nvim detects .env as filetype `env`; the grammar is called `dotenv`,
+        -- so the shared ensure_installed -> FileType wiring cannot match it
+        init = function()
+            vim.treesitter.language.register('dotenv', 'env')
+            vim.api.nvim_create_autocmd('FileType', {
+                group = vim.api.nvim_create_augroup('dotenv', { clear = true }),
+                pattern = 'env',
+                callback = function() pcall(vim.treesitter.start) end,
+            })
         end,
     },
     {

@@ -14,8 +14,25 @@ return {
         -- in config, not opts: opts still runs per spec fragment, so installing
         -- from there skips every language whose file is merged after this one
         config = function(_, opts)
+            local group = vim.api.nvim_create_augroup('treesitter', { clear = true })
+
+            -- grammars nvim-treesitter does not ship. It drops and re-requires
+            -- its parser table around an install, then fires User TSUpdate so
+            -- these can go back on; registering only once would not survive.
+            local function register_parsers()
+                for lang, info in pairs(opts.parsers or {}) do
+                    require('nvim-treesitter.parsers')[lang] = info
+                end
+            end
+            vim.api.nvim_create_autocmd('User', {
+                group = group,
+                pattern = 'TSUpdate',
+                callback = register_parsers,
+            })
+            register_parsers()
+
             vim.api.nvim_create_autocmd('FileType', {
-                group = vim.api.nvim_create_augroup('treesitter', { clear = true }),
+                group = group,
                 pattern = opts.ensure_installed,
                 callback = function()
                     vim.treesitter.start()
