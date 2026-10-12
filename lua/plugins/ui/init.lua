@@ -10,7 +10,10 @@ return {
         opts = function(_, opts)
             opts.ensure_installed = opts.ensure_installed or {}
             vim.list_extend(opts.ensure_installed, { 'regex', 'vim', 'make' })
-
+        end,
+        -- in config, not opts: opts still runs per spec fragment, so installing
+        -- from there skips every language whose file is merged after this one
+        config = function(_, opts)
             vim.api.nvim_create_autocmd('FileType', {
                 group = vim.api.nvim_create_augroup('treesitter', { clear = true }),
                 pattern = opts.ensure_installed,
@@ -19,9 +22,7 @@ return {
                     vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
                 end,
             })
-
             require('nvim-treesitter').install(opts.ensure_installed)
-            return {}
         end,
     },
     {
