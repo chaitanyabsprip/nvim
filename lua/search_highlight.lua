@@ -1,9 +1,10 @@
 local M = {}
+---@type integer?
+local timer
 
-function M.turn_off_highlight_after_expiration(timeout, timer)
-    if not timeout then timeout = M.timeout end
+function M.turn_off_highlight_after_expiration(timeout)
     if timer then vim.fn.timer_stop(timer) end
-    timer = vim.fn.timer_start(timeout, function() vim.cmd.nohlsearch() end)
+    timer = vim.fn.timer_start(timeout or M.timeout, function() vim.cmd.nohlsearch() end)
 end
 
 function M.setup(opts)
