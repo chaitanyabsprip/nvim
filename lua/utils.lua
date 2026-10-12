@@ -12,23 +12,6 @@ function M.debounce(ms, fn)
     end
 end
 
-function M.throttle(ms, fn)
-    local timer = vim.uv.new_timer()
-    local running = false
-    return function(...)
-        if not running then
-            local argv = { ... }
-            local argc = select('#', ...)
-            assert(timer ~= nil, 'time must not be nil')
-            timer:start(ms, 0, function()
-                running = false
-                pcall(vim.schedule_wrap(fn), unpack(argv, 1, argc))
-            end)
-            running = true
-        end
-    end
-end
-
 local hex_to_rgb = function(hex_str)
     local hex = '[abcdef0-9][abcdef0-9]'
     local pat = '^#(' .. hex .. ')(' .. hex .. ')(' .. hex .. ')$'
@@ -56,14 +39,6 @@ end
 function M.darken(hex, amount, bg) return M.blend(hex, bg or M.bg, math.abs(amount)) end
 
 function M.lighten(hex, amount, fg) return M.blend(hex, fg or M.fg, math.abs(amount)) end
-
-function M.tbl_length(T)
-    local count = 0
-    for _ in pairs(T) do
-        count = count + 1
-    end
-    return count
-end
 
 function M.get_visual_selection()
     -- this will exit visual mode
@@ -101,18 +76,6 @@ function M.get_visual_selection()
             ['end'] = { line = cerow, char = cecol },
         }
 end
-
--- function M.get_visual_selection()
---     ---@type integer, integer, integer, integer
---     local _, strtlnum, strtcol, _ = unpack(vim.fn.getpos "'<")
---     ---@type integer, integer, integer, integer
---     local _, endlnum, endcol, _ = unpack(vim.fn.getpos "'>")
---     local lcount = math.abs(endlnum - strtlnum) + 1
---     local lines = vim.api.nvim_buf_get_lines(0, strtlnum - 1, endlnum, false)
---     lines[1] = string.sub(lines[1], strtcol, -1)
---     lines[lcount] = string.sub(lines[lcount], 1, endcol - (lcount == 1 and (strtcol + 1) or 0))
---     return table.concat(lines, '\n')
--- end
 
 function M.getargs()
     ---@diagnostic disable-next-line: no-unknown
