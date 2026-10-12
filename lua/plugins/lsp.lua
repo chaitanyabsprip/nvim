@@ -145,7 +145,7 @@ return {
                 ft = { 'lua' },
                 opts = {
                     library = {
-                        { path = vim.env.HOME .. '/projects/fastaction.nvim' },
+                        { path = vim.env.HOME .. '/projects/chaitanyabsprip/fastaction.nvim' },
                         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
                         { path = 'LazyVim', words = { 'LazyVim' } },
                         { path = 'snacks.nvim', words = { 'Snacks' } },
