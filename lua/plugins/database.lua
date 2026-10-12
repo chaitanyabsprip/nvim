@@ -19,7 +19,7 @@ return {
                 callback = function(args)
                     ---@type integer
                     local buffer = args.buf
-                    local opts = { buffer = buffer, noremap = true, silent = true }
+                    local opts = { buf = buffer, noremap = true, silent = true }
                     for _, val in ipairs { 'o', '<cr>', '<2-LeftMouse>' } do
                         vim.keymap.set('n', val, '<Plug>(DBUI_SelectLine)', opts)
                     end
@@ -44,7 +44,7 @@ return {
                 callback = function(args)
                     ---@type integer
                     local buffer = args.buf
-                    local opts = { buffer = buffer, noremap = true, silent = true }
+                    local opts = { buf = buffer, noremap = true, silent = true }
                     vim.keymap.set('n', '<leader>W', '<Plug>(DBUI_SaveQuery)', opts)
                     vim.keymap.set('n', '<leader>E', '<Plug>(DBUI_EditBindParameters)', opts)
                     vim.keymap.set('n', 'S', '<Plug>(DBUI_ExecuteQuery)', opts)

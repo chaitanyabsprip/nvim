@@ -37,7 +37,7 @@ capabilities.code_action = {
     name = 'textDocument/codeAction',
     callback = function(_, bufnr)
         vim.keymap.set({ 'n', 'v' }, '<leader>a', require('fastaction').code_action, {
-            buffer = bufnr,
+            buf = bufnr,
             desc = 'Show code actions for the current cursor position or range selection',
             noremap = true,
             silent = true,
@@ -49,7 +49,7 @@ capabilities.code_lens = {
     name = 'textDocument/codeLens',
     callback = function(_, bufnr)
         vim.keymap.set('n', '<leader>l', vim.lsp.codelens.run, {
-            buffer = bufnr,
+            buf = bufnr,
             desc = 'Run codelens on current line',
             noremap = true,
             silent = true,
@@ -62,7 +62,7 @@ capabilities.declaration = {
     name = 'textDocument/declaration',
     callback = function(_, bufnr)
         vim.keymap.set('n', 'gD', lsp.declaration, {
-            buffer = bufnr,
+            buf = bufnr,
             desc = 'Go to declaration of symbol under cursor',
             noremap = true,
             silent = true,
@@ -74,7 +74,7 @@ capabilities.definition = {
     name = 'textDocument/definition',
     callback = function(_, bufnr)
         vim.keymap.set('n', 'gd', lsp.definition, {
-            buffer = bufnr,
+            buf = bufnr,
             desc = 'Go to definition of symbol under cursor',
             noremap = true,
             silent = true,
@@ -141,7 +141,7 @@ capabilities.inlay_hints = {
             ihint.enable(not ihint.is_enabled { bufnr = bufnr }, { bufnr = bufnr })
         end
         vim.keymap.set('n', 'gi', toggle_inlay_hints, {
-            buffer = bufnr,
+            buf = bufnr,
             desc = 'Toggle inlay hints',
             noremap = true,
             silent = true,
@@ -156,7 +156,7 @@ capabilities.inline_completion = {
         vim.keymap.set('i', '<Tab>', function()
             if not vim.lsp.inline_completion.get() then return '<Tab>' end
         end, {
-            buffer = bufnr,
+            buf = bufnr,
             desc = 'Accept the current inline completion',
             expr = true,
             noremap = true,
@@ -221,7 +221,7 @@ capabilities.range_formatting = {
         end, {
             noremap = true,
             silent = true,
-            buffer = bufnr,
+            buf = bufnr,
             desc = 'Range code formatting',
         })
     end,
@@ -232,7 +232,7 @@ capabilities.rename = {
     callback = function(client, bufnr)
         if client.name ~= 'dartls' then return end
         vim.keymap.set('n', 'gR', '<cmd>FlutterRename<cr>', {
-            buffer = bufnr,
+            buf = bufnr,
             desc = 'Flutter: Rename variable and related imports',
             noremap = true,
             silent = true,
@@ -244,7 +244,7 @@ capabilities.signature_help = {
     name = 'textDocument/signatureHelp',
     callback = function(_, bufnr)
         vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, {
-            buffer = bufnr,
+            buf = bufnr,
             noremap = true,
             silent = true,
             desc = 'Show signature help',
@@ -260,7 +260,7 @@ capabilities.symbol = {
             'gS',
             function() lsp.workspace_symbol(vim.fn.input { prompt = '> Search: ' }) end,
             {
-                buffer = bufnr,
+                buf = bufnr,
                 desc = 'View Workspace symbols',
                 noremap = true,
                 silent = true,
@@ -273,7 +273,7 @@ capabilities.type_definition = {
     name = 'textDocument/typeDefinition',
     callback = function(_, bufnr)
         vim.keymap.set('n', '<leader>gnd', lsp.type_definition, {
-            buffer = bufnr,
+            buf = bufnr,
             desc = 'Show type definition of symbol under cursor',
             noremap = true,
             silent = true,

@@ -41,7 +41,7 @@ debugger.dap = {
             dap.listeners.after.event_initialized['dapui_config'] = function()
                 dapui.open()
                 vim.keymap.set('n', '<leader>K', require('dap.ui.widgets').hover, {
-                    buffer = 0,
+                    buf = 0,
                     desc = 'dap: Show variable value',
                     noremap = true,
                     silent = true,
