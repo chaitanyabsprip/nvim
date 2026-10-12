@@ -60,40 +60,6 @@ tools.spec = {
         cmd = 'StartupTime',
     },
     {
-        'rest-nvim/rest.nvim',
-        ft = 'http',
-        event = 'VeryLazy',
-        version = '2.*',
-        enabled = false,
-        dependencies = {
-            {
-                'vhyrro/luarocks.nvim',
-                priority = 1000,
-                config = true,
-                lazy = false,
-            },
-            {
-                'nvim-treesitter/nvim-treesitter',
-                opts = function(_, opts)
-                    opts.ensure_installed = opts.ensure_installed or {}
-                    vim.list_extend(
-                        opts.ensure_installed,
-                        { 'lua', 'http', 'graphql', 'xml', 'json' }
-                    )
-                end,
-            },
-        },
-        config = function()
-            require('rest-nvim').setup {
-                result = {
-                    split = {
-                        horizontal = true,
-                    },
-                },
-            }
-        end,
-    },
-    {
         'christoomey/vim-tmux-navigator',
         cmd = {
             'TmuxNavigateLeft',
