@@ -133,7 +133,7 @@ config.setup = function()
     vim.o.cmdheight = 0
     vim.o.lazyredraw = false -- don't redraw while executing macros
     vim.o.redrawtime = 600 -- timeout for 'hlsearch' and :match highlighting in msec
-    vim.opt.list = true -- show <Tab> as ^I and end-of-line as $
+    vim.o.list = true -- show <Tab> as ^I and end-of-line as $
     vim.opt.listchars =
         { tab = '| ', nbsp = '␣', trail = '•', extends = '⟩', precedes = '⟨', eol = '↲' }
     vim.o.number = true
@@ -146,7 +146,7 @@ config.setup = function()
     vim.o.hlsearch = false
     vim.o.termguicolors = true
     vim.o.cursorline = true
-    vim.opt.cursorlineopt = { 'both' }
+    vim.o.cursorlineopt = 'both'
     vim.o.colorcolumn = '81'
 
     local rulerformat = '%=%c|%l [%P]'
@@ -162,7 +162,7 @@ config.setup = function()
 
     -- messages and info
     vim.o.shortmess = 'filnxtToOFIcCs'
-    vim.opt.showcmdloc = 'statusline'
+    vim.o.showcmdloc = 'statusline'
     vim.o.ruler = true
     vim.o.rulerformat = rulerformat
 
@@ -173,8 +173,8 @@ config.setup = function()
     vim.o.undofile = true
     vim.o.undodir = vim.fn.expand '~/.tmp/undodir'
     vim.o.textwidth = 72
-    vim.opt.pumheight = 10
-    vim.opt.showmatch = true
+    vim.o.pumheight = 10
+    vim.o.showmatch = true
 
     -- tabs and indenting
     vim.o.tabstop = 8
@@ -215,7 +215,7 @@ config.setup = function()
     vim.o.sessionoptions = 'buffers,curdir,winsize,resize,winpos,folds,tabpages,globals'
     vim.wo.signcolumn = 'yes'
 
-    vim.opt.pumblend = 10
+    vim.o.pumblend = 10
 
     -- sql plugin opts
     vim.g.ftplugin_sql_omni_key = '<c-a>'
