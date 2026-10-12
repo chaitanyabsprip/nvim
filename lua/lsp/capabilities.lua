@@ -17,10 +17,11 @@ local function format(opts)
     ---@type integer
     local buf = opts.bufnr
     if buf == nil then return end
-    local null_ls_sources = require 'null-ls.sources'
     local ft = vim.bo[buf].filetype
 
-    local has_null_ls = #null_ls_sources.get_available(ft, 'NULL_LS_FORMATTING') > 0
+    -- none-ls is archived upstream: fall back to the lsp formatter without it
+    local ok, sources = pcall(require, 'null-ls.sources')
+    local has_null_ls = ok and #sources.get_available(ft, 'NULL_LS_FORMATTING') > 0
     ---@type function
     local filter = opts.filter
     opts.filter = nil
