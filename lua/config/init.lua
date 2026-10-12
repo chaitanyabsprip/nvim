@@ -154,7 +154,6 @@ config.setup = function()
     local rulerformat = '%=%c|%l [%P]'
     -- multiple windows
     vim.o.laststatus = 3
-    -- vim.o.statuscolumn = [[%!v:lua.require'config.statuscolumn'.status_column()]]
     vim.o.statusline = string.format(' %s%s ', '%f', rulerformat)
     vim.o.splitbelow = true
     vim.o.splitright = true
@@ -189,7 +188,6 @@ config.setup = function()
     vim.o.smartindent = true
 
     -- folding
-    vim.g.foldcolumn = false -- this is a custom option
     vim.o.foldlevel = 99
     vim.o.foldlevelstart = 99
     vim.o.foldmethod = 'expr'
