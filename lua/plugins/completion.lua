@@ -56,34 +56,6 @@ return {
     { 'Alexisvt/flutter-snippets', ft = { 'dart' } },
     { 'Nash0x7E2/awesome-flutter-snippets', ft = { 'dart' } },
     { 'natebosch/dartlang-snippets', ft = 'dart' },
-    {
-        'zbirenbaum/copilot.lua',
-        enabled = false,
-        event = 'InsertEnter',
-        dependencies = { 'copilotlsp-nvim/copilot-lsp' },
-        opts = {
-            panel = { enabled = false, auto_refresh = true },
-            suggestion = {
-                auto_trigger = true,
-                keymap = {
-                    accept = '<C-a>',
-                    accept_word = false,
-                    accept_line = false,
-                    next = '<M-]>',
-                    prev = '<M-[>',
-                    dismiss = '<C-]>',
-                },
-            },
-            nes = {
-                enabled = true,
-                auto_trigger = true,
-                keymap = {
-                    accept_and_goto = '<c-c>',
-                    dismiss = '<esc>',
-                },
-            },
-        },
-    },
     -- blink's own capabilities on top of the nvim defaults, so servers actually
     -- hear about the completion features it implements
     get_capabilities = function(override)
