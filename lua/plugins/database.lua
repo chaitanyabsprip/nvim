@@ -19,7 +19,8 @@ return {
                 callback = function(args)
                     ---@type integer
                     local buffer = args.buf
-                    local opts = { buf = buffer, noremap = true, silent = true }
+                    -- <Plug> rhs only expands through a remappable mapping
+                    local opts = { buf = buffer, remap = true, silent = true }
                     for _, val in ipairs { 'o', '<cr>', '<2-LeftMouse>' } do
                         vim.keymap.set('n', val, '<Plug>(DBUI_SelectLine)', opts)
                     end
@@ -35,7 +36,7 @@ return {
                     vim.keymap.set('n', 'H', '<Plug>(DBUI_GotoParentNode)', opts)
                     vim.keymap.set('n', 'L', '<Plug>(DBUI_GotoChildNode)', opts)
                     vim.keymap.set('n', 'K', '<Plug>(DBUI_GotoPrevSibling)', opts)
-                    vim.keymap.set('n', 'J', '<Plug>(DBUI_GotoNextSibling', opts)
+                    vim.keymap.set('n', 'J', '<Plug>(DBUI_GotoNextSibling)', opts)
                 end,
             })
             vim.g.db_ui_disable_mappings_sql = true
@@ -44,7 +45,8 @@ return {
                 callback = function(args)
                     ---@type integer
                     local buffer = args.buf
-                    local opts = { buf = buffer, noremap = true, silent = true }
+                    -- <Plug> rhs only expands through a remappable mapping
+                    local opts = { buf = buffer, remap = true, silent = true }
                     vim.keymap.set('n', '<leader>W', '<Plug>(DBUI_SaveQuery)', opts)
                     vim.keymap.set('n', '<leader>E', '<Plug>(DBUI_EditBindParameters)', opts)
                     vim.keymap.set('n', 'S', '<Plug>(DBUI_ExecuteQuery)', opts)
