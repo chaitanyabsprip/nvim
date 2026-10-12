@@ -207,14 +207,4 @@ return {
         end,
         dependencies = { 'nvim-tree/nvim-web-devicons' },
     },
-    {
-        -- 'Chaitanyabsprip/cartographer',
-        url = vim.env.HOME .. '/projects/cartographer',
-        dependencies = { 'nvim-telescope/telescope.nvim' },
-        build = 'go build -o bin/cartographer; cp -r cartographer.nvim/lua .',
-        enabled = false,
-        event = 'VeryLazy',
-        opts = { python_path = '/home/chaitanya/projects/cartographer/.venv/bin' },
-        config = function(_, opts) require('cartographer').setup(opts) end,
-    },
 }
