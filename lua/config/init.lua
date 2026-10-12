@@ -209,7 +209,10 @@ config.setup = function()
 
     -- running make and jumping to errors (quickfix)
     vim.go.grepprg = 'rg --vimgrep --no-heading --smart-case --multiline'
-    vim.g.python3_host_prog = vim.fn.expand '~/.venvs/neovim/bin/python3'
+    -- an interpreter that moved with the version manager is worse than none:
+    -- nvim would keep shelling out to a path that no longer exists
+    local python3 = vim.fn.expand '~/.venvs/neovim/bin/python3'
+    if vim.uv.fs_stat(python3) then vim.g.python3_host_prog = python3 end
 
     -- various
     vim.o.sessionoptions = 'buffers,curdir,winsize,resize,winpos,folds,tabpages,globals'
