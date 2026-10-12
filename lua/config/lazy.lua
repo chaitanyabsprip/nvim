@@ -48,7 +48,14 @@ plugin.setup = function()
         { import = 'plugins.ui.themes.' .. config.theme },
         { import = 'plugins.explorer' },
     }, {
-        defaults = { lazy = true },
+        -- `:lua vim.g.disabled_plugins = { 'oil.nvim' }` in a session-local
+        -- init, or before lazy loads, to try life without one
+        defaults = {
+            lazy = true,
+            cond = function(spec)
+                return not vim.list_contains(vim.g.disabled_plugins or {}, spec.name)
+            end,
+        },
         performance = { rtp = { disabled_plugins = disabled_builtins } },
         install = { colorscheme = { 'habamax' } },
         checker = { enabled = true, notify = false },
