@@ -89,6 +89,9 @@ function M.show()
     }
 
     vim.bo[buf].modifiable = true
+    -- a repaint on LazyVimStarted would otherwise insert a second copy
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, {})
+    vim.api.nvim_buf_clear_namespace(buf, ns, 0, -1)
 
     local start = 0
     for _, section in ipairs(sections) do
