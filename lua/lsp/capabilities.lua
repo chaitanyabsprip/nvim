@@ -224,6 +224,7 @@ capabilities.range_formatting = {
 
 capabilities.rename = {
     name = 'textDocument/rename',
+    -- dart only: FlutterRename also fixes up the imports that point at the file
     callback = function(client, bufnr)
         if client.name ~= 'dartls' then return end
         vim.keymap.set('n', 'gR', '<cmd>FlutterRename<cr>', {
@@ -293,10 +294,10 @@ for _, entry in ipairs {
     { 'textDocument/inlineValue', 'debugger-only, nothing renders it here' },
     { 'textDocument/moniker', 'cross-repo symbol ids, no local use' },
     { 'textDocument/prepareCallHierarchy', 'no mapping yet' },
-    { 'textDocument/prepareRename', 'grn calls it on its own' },
+    { 'textDocument/prepareRename', 'rename would call it; nothing maps rename' },
     { 'textDocument/prepareTypeHierarchy', 'no mapping yet' },
     { 'textDocument/rangesFormatting', 'gf formats one range at a time' },
-    { 'textDocument/references', 'builtin grr' },
+    { 'textDocument/references', 'unmapped since keymaps.lazy deletes grr' },
     { 'textDocument/selectionRange', 'treesitter incremental selection instead' },
     { 'textDocument/semanticTokens/full', 'enabled by default on attach' },
     { 'textDocument/willSaveWaitUntil', 'BufWritePre formatting covers it' },
