@@ -1,5 +1,7 @@
 ---@diagnostic disable: no-unknown
 
+local fastaction_dir = vim.env.HOME .. '/projects/chaitanyabsprip/fastaction.nvim'
+
 local function install(pkg, version)
     vim.notify(('installing %s'):format(pkg.name), vim.log.levels.INFO)
     return pkg:install({ version = version }):once(
@@ -66,7 +68,9 @@ return {
         vim.lsp.enable(server)
     end,
     {
-        dir = vim.env.HOME .. '/projects/chaitanyabsprip/fastaction.nvim',
+        'Chaitanyabsprip/fastaction.nvim',
+        -- develop against the checkout when it is there, clone it when it is not
+        dir = vim.uv.fs_stat(fastaction_dir) and fastaction_dir or nil,
         ---@module "fastaction"
         ---@type FastActionConfig
         opts = {
@@ -128,7 +132,7 @@ return {
                 ft = { 'lua' },
                 opts = {
                     library = {
-                        { path = vim.env.HOME .. '/projects/chaitanyabsprip/fastaction.nvim' },
+                        { path = fastaction_dir },
                         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
                         { path = 'LazyVim', words = { 'LazyVim' } },
                         { path = 'snacks.nvim', words = { 'Snacks' } },
