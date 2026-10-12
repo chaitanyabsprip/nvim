@@ -106,18 +106,6 @@ capabilities.document_highlight = {
     end,
 }
 
-capabilities.document_symbols = {
-    name = 'textDocument/documentSymbol',
-    callback = function(_, bufnr)
-        vim.keymap.set('n', 'gs', lsp.document_symbol, {
-            buffer = bufnr,
-            desc = 'View document symbols',
-            noremap = true,
-            silent = true,
-        })
-    end,
-}
-
 capabilities.formatting = {
     name = 'textDocument/formatting',
     callback = function(_, bufnr)
@@ -141,18 +129,6 @@ capabilities.folding_range = {
         for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
             vim.wo[win][0].foldexpr = vim.lsp.foldexpr
         end
-    end,
-}
-
-capabilities.implementation = {
-    name = 'textDocument/implementation',
-    callback = function(_, bufnr)
-        vim.keymap.set('n', 'gri', lsp.implementation, {
-            buffer = bufnr,
-            desc = 'Show implementations of symbol under cursor',
-            noremap = true,
-            silent = true,
-        })
     end,
 }
 
@@ -250,32 +226,13 @@ capabilities.range_formatting = {
     end,
 }
 
-capabilities.references = {
-    name = 'textDocument/references',
-    callback = function(_, bufnr)
-        vim.keymap.set('n', 'gr', lsp.references, {
-            buffer = bufnr,
-            desc = 'Find references of symbol under cursor',
-            noremap = true,
-            silent = true,
-        })
-    end,
-}
-
 capabilities.rename = {
     name = 'textDocument/rename',
     callback = function(client, bufnr)
-        if client.name == 'dartls' then
-            return vim.keymap.set('n', 'gR', '<cmd>FlutterRename<cr>', {
-                buffer = bufnr,
-                desc = 'Flutter: Rename variable and related imports',
-                noremap = true,
-                silent = true,
-            })
-        end
-        vim.keymap.set('n', 'gR', lsp.rename, {
+        if client.name ~= 'dartls' then return end
+        vim.keymap.set('n', 'gR', '<cmd>FlutterRename<cr>', {
             buffer = bufnr,
-            desc = 'Rename symbol under cursor',
+            desc = 'Flutter: Rename variable and related imports',
             noremap = true,
             silent = true,
         })
