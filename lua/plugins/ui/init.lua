@@ -11,12 +11,8 @@ return {
             opts.ensure_installed = opts.ensure_installed or {}
             vim.list_extend(opts.ensure_installed, { 'regex', 'vim', 'make' })
 
-            local augroup = function(group) vim.api.nvim_create_augroup(group, { clear = true }) end
-            local autocmd = function(event, opts)
-                if not opts.disable then vim.api.nvim_create_autocmd(event, opts) end
-            end
-            autocmd('FileType', {
-                group = augroup 'treesitter',
+            vim.api.nvim_create_autocmd('FileType', {
+                group = vim.api.nvim_create_augroup('treesitter', { clear = true }),
                 pattern = opts.ensure_installed,
                 callback = function()
                     vim.treesitter.start()

@@ -2,10 +2,8 @@
 local config = {}
 
 function config.autocommands()
-    local augroup = function(group) vim.api.nvim_create_augroup(group, { clear = true }) end
-    local autocmd = function(event, opts)
-        if not opts.disable then vim.api.nvim_create_autocmd(event, opts) end
-    end
+    local function augroup(group) return vim.api.nvim_create_augroup(group, { clear = true }) end
+    local autocmd = vim.api.nvim_create_autocmd
 
     autocmd('FileType', {
         group = augroup 'quit_mapping',
