@@ -34,38 +34,7 @@ function M.show()
     local stats = require('lazy').stats()
     local sections = {
         { text = string.rep('\n', 18) },
-        {
-            text = {
-                M.center('            NVIM v0.11.0-dev-b0c336e            ', 0.49)[1],
-                '\n',
-                M.center('                                                ', 0.49)[1],
-                '\n',
-                M.center('   Nvim is open source and freely distributable ', 0.49)[1],
-                '\n',
-                M.center('             https://neovim.io/#chat            ', 0.49)[1],
-                '\n',
-                M.center('                                                ', 0.49)[1],
-                '\n',
-                M.center('  type  :help nvim<Enter>       if you are new! ', 0.49)[1],
-                '\n',
-                M.center('  type  :checkhealth<Enter>     to optimize Nvim', 0.49)[1],
-                '\n',
-                M.center('  type  :q<Enter>               to exit         ', 0.49)[1],
-                '\n',
-                M.center('  type  :help<Enter>            for help        ', 0.49)[1],
-                '\n',
-                M.center('                                                ', 0.49)[1],
-                '\n',
-                M.center(' type  :help news<Enter> to see changes in v0.10', 0.49)[1],
-                '\n',
-                M.center('                                                ', 0.49)[1],
-                '\n',
-                M.center('          Become a registered Vim user!         ', 0.49)[1],
-                '\n',
-                M.center('  type  :help register<Enter>   for information ', 0.49)[1],
-                '\n',
-            },
-        },
+        { text = table.concat(M.center(M.intro(), 0.49), '\n') .. '\n' },
         { text = string.rep('\n', 6) },
         {
             text = {
@@ -108,6 +77,30 @@ function M.show()
     end
 
     vim.bo[buf].modifiable = false
+end
+
+---the stock :intro screen, carrying whatever version is running
+---@return string
+function M.intro()
+    local width = 48
+    local version = 'NVIM v' .. tostring(vim.version())
+    local pad = (' '):rep(math.floor((width - #version) / 2))
+    return table.concat({
+        pad .. version,
+        '',
+        '   Nvim is open source and freely distributable ',
+        '             https://neovim.io/#chat            ',
+        '',
+        '  type  :help nvim<Enter>       if you are new! ',
+        '  type  :checkhealth<Enter>     to optimize Nvim',
+        '  type  :q<Enter>               to exit         ',
+        '  type  :help<Enter>            for help        ',
+        '',
+        ' type  :help news<Enter> to see changes in v0.10',
+        '',
+        '          Become a registered Vim user!         ',
+        '  type  :help register<Enter>   for information ',
+    }, '\n')
 end
 
 function M.center(text, offset)
