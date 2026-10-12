@@ -1,6 +1,7 @@
 ---@class Capability
 ---@field name string
 ---@field callback fun(client: vim.lsp.Client,bufnr: integer)
+---@field note? string why it is unmapped, for the catalog at the bottom
 
 ---@type table<string,Capability>
 local capabilities = {}
@@ -280,6 +281,48 @@ capabilities.type_definition = {
     end,
 }
 
+-- Catalog of everything else a server can advertise. Each is a no-op: swap in
+-- a `callback(client, bufnr)` to adopt one, and it starts resolving like the
+-- entries above. `m.audit()` flags anything the protocol gains that is missing
+-- from both lists.
+local noop = function() end
+local mapped = {}
+for _, capability in pairs(capabilities) do
+    mapped[capability.name] = true
+end
+for _, entry in ipairs {
+    { 'textDocument/colorPresentation', 'paired with documentColor' },
+    { 'textDocument/completion', 'blink owns completion' },
+    { 'textDocument/diagnostic', 'pulled automatically' },
+    { 'textDocument/documentColor', 'on by default since 0.12' },
+    { 'textDocument/documentLink', 'gx opens the link under the cursor' },
+    { 'textDocument/documentSymbol', 'builtin gO' },
+    { 'textDocument/hover', 'builtin K' },
+    { 'textDocument/implementation', 'builtin gri' },
+    { 'textDocument/inlineValue', 'debugger-only, nothing renders it here' },
+    { 'textDocument/moniker', 'cross-repo symbol ids, no local use' },
+    { 'textDocument/prepareCallHierarchy', 'no mapping yet' },
+    { 'textDocument/prepareRename', 'grn calls it on its own' },
+    { 'textDocument/prepareTypeHierarchy', 'no mapping yet' },
+    { 'textDocument/rangesFormatting', 'gf formats one range at a time' },
+    { 'textDocument/references', 'builtin grr' },
+    { 'textDocument/selectionRange', 'treesitter incremental selection instead' },
+    { 'textDocument/semanticTokens/full', 'enabled by default on attach' },
+    { 'textDocument/willSaveWaitUntil', 'BufWritePre formatting covers it' },
+    { 'workspace/diagnostic', 'pulled automatically' },
+    { 'workspace/didChangeWatchedFiles', 'nvim watches and notifies already' },
+    { 'workspace/executeCommand', 'invoked by code actions and codelens' },
+    { 'workspace/symbol', 'mapped above as gS' },
+    { 'workspace/willCreateFiles', 'no file-op integration' },
+    { 'workspace/willDeleteFiles', 'no file-op integration' },
+    { 'workspace/willRenameFiles', 'no file-op integration' },
+} do
+    local method, note = entry[1], entry[2]
+    if not mapped[method] then
+        capabilities[method] = { name = method, callback = noop, note = note }
+    end
+end
+
 ---@type table<string,Capability|function>
 local m = {}
 -- calls function for each capability from a capabilities module if it's resolved
@@ -291,9 +334,40 @@ local m = {}
 m.resolve = function(client, bufnr)
     -- if client.name == 'basedpyright' then vim.print(client.server_capabilities) end
     for _, capability in pairs(capabilities) do
-        local is_supported = client:supports_method(capability.name, 0)
-        if is_supported then capability.callback(client, bufnr) end
+        if capability.callback ~= noop then
+            local is_supported = client:supports_method(capability.name, 0)
+            if is_supported then capability.callback(client, bufnr) end
+        end
     end
+end
+
+-- every bindable method the protocol knows that neither list mentions, so the
+-- catalog can't silently rot as neovim adds capabilities
+---@return string[]
+m.audit = function()
+    local skip = '^%a+/did%a+$|^%a+/will%a+$|/refresh$|/resolve$'
+    -- server->client, or sub-requests of a capability already listed
+    local unbindable = {
+        ['textDocument/publishDiagnostics'] = true,
+        ['textDocument/semanticTokens/full/delta'] = true,
+        ['textDocument/semanticTokens/range'] = true,
+        ['workspace/applyEdit'] = true,
+        ['workspace/configuration'] = true,
+        ['workspace/textDocumentContent'] = true,
+        ['workspace/workspaceFolders'] = true,
+    }
+    local missing = {}
+    for _, method in pairs(vim.lsp.protocol.Methods) do
+        local bindable = type(method) == 'string'
+            and (vim.startswith(method, 'textDocument/') or vim.startswith(method, 'workspace/'))
+            and not unbindable[method]
+            and not vim.iter(vim.split(skip, '|')):any(function(p) return method:match(p) end)
+        if bindable and not mapped[method] and not capabilities[method] then
+            table.insert(missing, method)
+        end
+    end
+    table.sort(missing)
+    return missing
 end
 
 for k, v in pairs(capabilities) do
