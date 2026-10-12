@@ -1,6 +1,6 @@
 local configure = require('plugins.lsp').configure
 
-local function yamlls(lspconfig)
+local function yamlls()
     local config = {
         settings = {
             redhat = { telemetry = false },

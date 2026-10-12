@@ -145,11 +145,12 @@ return {
                 end,
             },
         },
+        -- the plugin is here for the lsp/*.lua server defaults it ships; each
+        -- entry configures itself through vim.lsp.config
         config = function(_, opts)
-            local lspconfig = require 'lspconfig'
             ---@diagnostic disable-next-line: no-unknown
             for _, server in pairs(opts.servers) do
-                server(lspconfig)
+                server()
             end
         end,
     },
