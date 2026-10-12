@@ -152,20 +152,9 @@ function M.set_options()
     vim.cmd(('silent! noautocmd setlocal %s'):format(table.concat(options, ' ')))
 end
 
----Check whether table contains element
----@param table table<any, any>
----@param element any
----@return boolean
-table.contains = function(table, element)
-    for _, value in pairs(table) do
-        if value == element then return true end
-    end
-    return false
-end
-
 function M.dont_show()
     local argv = require('utils').getargs()
-    if (not table.contains(argv, '-i')) and #argv > 0 then return true end
+    if (not vim.list_contains(argv, '-i')) and #argv > 0 then return true end
 
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, true)
     if #lines > 1 or (#lines == 1 and lines[1]:len() > 0) then return true end

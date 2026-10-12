@@ -23,7 +23,7 @@ local function cowboy(disabled_ft)
         local timer = assert(vim.uv.new_timer())
         local map = key
         vim.keymap.set('n', key, function()
-            if table.contains(disabled_ft, vim.bo.filetype) then return map end
+            if vim.list_contains(disabled_ft, vim.bo.filetype) then return map end
             if vim.v.count > 0 then count = 0 end
             if count >= 10 then
                 ok, id = pcall(vim.notify, 'Stop repeating chars', vim.log.levels.WARN, {
