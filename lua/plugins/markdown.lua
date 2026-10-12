@@ -1,10 +1,7 @@
 local configure = require('plugins.lsp').configure
 
 local function marksman() configure('marksman', { root = { '.marksman.toml' } }) end
--- local function typos() configure('typos_lsp', {}) end
--- local function typos() configure('typos_lsp', { cmd = { 'axon', 'typos-lsp' } }) end
 local function oxide() configure('markdown_oxide', {}) end
--- local function oxide() configure('markdown_oxide', { cmd = { 'axon', 'markdown-oxide' } }) end
 
 ---@module "lazy"
 ---@type LazySpec[]
@@ -29,7 +26,6 @@ return {
                 opts,
                 'ensure_installed',
                 'ltex-ls',
-                -- 'typos-lsp',
                 'markdownlint',
                 'markdown-oxide',
                 'marksman'
@@ -73,10 +69,4 @@ return {
             'nvim-tree/nvim-web-devicons',
         },
     },
-    -- {
-    --     'MeanderingProgrammer/render-markdown.nvim',
-    --     opts = {},
-    --     ft = { 'markdown', 'md', 'rmd', 'rst' },
-    --     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
-    -- },
 }

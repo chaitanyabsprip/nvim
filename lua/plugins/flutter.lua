@@ -38,7 +38,6 @@ M.spec = {
     cond = function() return vim.uv.fs_stat 'pubspec.yaml' ~= nil end,
     dependencies = { 'nvim-telescope/telescope.nvim' },
     event = 'VeryLazy',
-    -- ft = { 'dart', 'yaml' },
     opts = function()
         local get_capabilities = require('plugins.completion').get_capabilities
         local init_options = {
@@ -105,24 +104,5 @@ M.spec = {
         }
     end,
 }
-
--- function M.spec.will_rename_files(old_name, new_name, callback)
---     local params = vim.lsp.util.make_position_params()
---     if not new_name then return end
---     local file_change = {
---         newUri = vim.uri_from_fname(new_name),
---         oldUri = vim.uri_from_fname(old_name),
---     }
---     params.files = { file_change }
---     vim.lsp.buf_request(0, 'workspace/willRenameFiles', params, function(err, result)
---         if err then
---             return vim.notify(
---                 err.message or 'Error on getting lsp rename results!',
---                 vim.log.levels.ERROR
---             )
---         end
---         callback(result)
---     end)
--- end
 
 return M.spec

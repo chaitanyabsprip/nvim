@@ -12,15 +12,6 @@ return {
         optional = true,
         opts = function(_, opts)
             require('config.lazy').extend_opts_list(opts, 'ensure_installed', 'dotenv')
-            -- local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-            -- parser_config['dotenv'] = {
-            --     install_info = {
-            --         url = 'https://github.com/pnx/tree-sitter-dotenv',
-            --         branch = 'main',
-            --         files = { 'src/parser.c', 'src/scanner.c' },
-            --     },
-            --     filetype = 'dotenv',
-            -- }
         end,
     },
     {

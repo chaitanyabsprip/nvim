@@ -30,28 +30,6 @@ return {
                 silent = true,
                 desc = 'FzfLua: oldfiles',
             },
-            -- {
-            --     'gW',
-            --     function() require('fzf-lua').grep_cword {} end,
-            --     noremap = true,
-            --     silent = true,
-            --     desc = 'FzfLua: grep word under cursor',
-            -- },
-            -- {
-            --     'gw',
-            --     function() require('fzf-lua').grep { search = vim.fn.input { prompt = 'Grep > ' } } end,
-            --     noremap = true,
-            --     silent = true,
-            --     desc = 'FzfLua: grep and filter',
-            -- },
-            -- {
-            --     'gw',
-            --     function() require('fzf-lua').grep_visual {} end,
-            --     mode = 'v',
-            --     noremap = true,
-            --     silent = true,
-            --     desc = 'FzfLua: grep visual selection',
-            -- },
             {
                 ';c',
                 function() require('fzf-lua').git_status {} end,
@@ -82,13 +60,6 @@ return {
                 silent = true,
                 desc = 'FzfLua: Help tags',
             },
-            -- {
-            --     '<leader>fn',
-            --     function() require('fzf-lua').files { cwd = os.getenv 'NOTESPATH' } end,
-            --     noremap = true,
-            --     silent = true,
-            --     desc = 'FzfLua: Find notes',
-            -- },
         },
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         opts = {

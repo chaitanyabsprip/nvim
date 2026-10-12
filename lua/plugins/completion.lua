@@ -56,35 +56,11 @@ return {
     { 'Alexisvt/flutter-snippets', ft = { 'dart' } },
     { 'Nash0x7E2/awesome-flutter-snippets', ft = { 'dart' } },
     { 'natebosch/dartlang-snippets', ft = 'dart' },
-    -- {
-    --     'copilotlsp-nvim/copilot-lsp',
-    --     event = 'InsertEnter',
-    --     config = function()
-    --         vim.g.copilot_nes_debounce = 500
-    --         vim.lsp.enable 'copilot_ls'
-    --         vim.keymap.set(
-    --             'n',
-    --             '<c-c>',
-    --             function()
-    --                 local _ = require('copilot-lsp.nes').walk_cursor_start_edit()
-    --                     or (
-    --                         require('copilot-lsp.nes').apply_pending_nes()
-    --                         and require('copilot-lsp.nes').walk_cursor_end_edit()
-    --                     )
-    --             end
-    --         )
-    --         vim.keymap.set('n', '<esc>', function()
-    --             if not require('copilot-lsp.nes').clear() then _ = '' end
-    --         end, { desc = 'Clear Copilot suggestion or fallback' })
-    --         require('copilot-lsp').setup {}
-    --     end,
-    -- },
     {
         'CopilotC-Nvim/CopilotChat.nvim',
         enabled = false,
         dependencies = {
             { 'zbirenbaum/copilot.lua' },
-            -- { 'github/copilot.vim' }, -- or zbirenbaum/copilot.lua
             { 'nvim-lua/plenary.nvim' }, -- for curl, log wrapper
         },
         build = 'make tiktoken', -- Only on MacOS or Linux
@@ -137,7 +113,6 @@ return {
                     dismiss = '<esc>',
                 },
             },
-            -- copilot_model = 'gpt-41-copilot',
         },
     },
     -- blink's own capabilities on top of the nvim defaults, so servers actually
