@@ -79,14 +79,12 @@ end
 
 function M.getargs()
     ---@diagnostic disable-next-line: no-unknown
-    local argv = vim.tbl_filter(function(arg)
-        local nvim = arg ~= 'nvim' and arg ~= '/usr/local/bin/nvim'
-        local embed = arg ~= '--embed'
-        local i = arg ~= '-i'
-        local none = arg ~= 'NONE'
-        return embed and i and none and nvim
+    return vim.tbl_filter(function(arg)
+        -- the binary itself, whatever it is installed as, plus the flags an
+        -- embedded or GUI start adds
+        if arg == vim.v.progpath or vim.fs.basename(arg) == 'nvim' then return false end
+        return arg ~= '--embed' and arg ~= '-i' and arg ~= 'NONE'
     end, vim.v.argv)
-    return argv
 end
 
 function M.open_explorer_on_startup()
