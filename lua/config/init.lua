@@ -311,7 +311,10 @@ function config.lazy()
     config.commands()
     require('greeter').setup()
     require('config.tabline').setup()
-    require('vim._core.ui2').enable { enable = true }
+    -- private module: a nightly can move it, and throwing here would take the
+    -- rest of the VeryLazy setup (keymaps.lazy included) with it
+    local ok, ui2 = pcall(require, 'vim._core.ui2')
+    if ok then ui2.enable { enable = true } end
     -- require('utils').open_explorer_on_startup()
 end
 
