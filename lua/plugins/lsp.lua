@@ -1,15 +1,5 @@
 ---@diagnostic disable: no-unknown
 
-local function resolve_package(pkg_name)
-    local Optional = require 'mason-core.optional'
-    local registry = require 'mason-registry'
-
-    return Optional.of_nilable(pkg_name):map(function(package_name)
-        local ok, pkg = pcall(registry.get_package, package_name)
-        if ok then return pkg end
-    end)
-end
-
 local function install(pkg, version)
     vim.notify(('installing %s'):format(pkg.name), vim.log.levels.INFO)
     return pkg:install({ version = version }):once(
@@ -30,21 +20,15 @@ local function install(pkg, version)
 end
 
 local function mason_ensure_installed(opts)
+    local registry = require 'mason-registry'
     for _, installable in ipairs(opts.ensure_installed) do
-        if installable then
-            local Package = require 'mason-core.package'
-            local server_name, version = Package.Parse(installable)
+        local name, version = require('mason-core.package').Parse(installable)
+        local found, pkg = pcall(registry.get_package, name)
+        if not found then
             local errmsg = 'Server %q is not a valid entry in ensure_installed.'
-            resolve_package(server_name)
-                :if_present(
-                    ---@param pkg Package
-                    function(pkg)
-                        if not pkg:is_installed() then install(pkg, version) end
-                    end
-                )
-                :if_not_present(
-                    function() vim.notify((errmsg):format(server_name), vim.log.levels.WARN) end
-                )
+            vim.notify(errmsg:format(name), vim.log.levels.WARN)
+        elseif not pkg:is_installed() then
+            install(pkg, version)
         end
     end
 end
