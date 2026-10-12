@@ -9,13 +9,13 @@ vim.keymap.set('n', '<leader>f', function()
         if input == nil or input == '' then return end
         vim.cmd([[:Cfilter ]] .. input)
     end)
-end, { noremap = true, buffer = 0, desc = 'Filter qf list' })
+end, { buffer = 0, desc = 'Filter qf list' })
 
 vim.keymap.set('n', 'dd', function()
     local qf = require 'quickfix'
     if vim.g.qf_source == 'buffers' then qf.delete_buf_from_qf() end
     qf.delete_qf_entry()
-end, { noremap = true, buffer = 0, desc = 'Delete current entry from quickfix list' })
+end, { buffer = 0, desc = 'Delete current entry from quickfix list' })
 
 local source = vim.g.qf_source
 local has_gitsigns, _ = pcall(require, 'gitsigns')

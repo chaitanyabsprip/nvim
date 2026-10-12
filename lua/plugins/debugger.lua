@@ -43,7 +43,6 @@ debugger.dap = {
                 vim.keymap.set('n', '<leader>K', require('dap.ui.widgets').hover, {
                     buf = 0,
                     desc = 'dap: Show variable value',
-                    noremap = true,
                     silent = true,
                 })
             end
@@ -53,35 +52,30 @@ debugger.dap = {
                 '<leader>b',
                 function() require('dap').toggle_breakpoint() end,
                 silent = true,
-                noremap = true,
                 desc = 'Toggle debug breakpoint',
             },
             {
                 '<leader>c',
                 function() require('dap').continue() end,
                 silent = true,
-                noremap = true,
                 desc = 'Continue or start debugging',
             },
             {
                 '<leader>so',
                 function() require('dap').step_over() end,
                 silent = true,
-                noremap = true,
                 desc = 'dap: step over',
             },
             {
                 '<leader>si',
                 function() require('dap').step_into() end,
                 silent = true,
-                noremap = true,
                 desc = 'dap: step into',
             },
             {
                 '<leader>sO',
                 function() require('dap').step_out() end,
                 silent = true,
-                noremap = true,
                 desc = 'dap: step out',
             },
         },

@@ -28,7 +28,7 @@ local function integrate_telescope()
         'n',
         '<leader>f',
         ":lua require('telescope').extensions.flutter.commands()<CR>",
-        { noremap = true, silent = true }
+        { silent = true }
     )
 end
 

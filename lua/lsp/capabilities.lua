@@ -7,8 +7,7 @@
 local capabilities = {}
 -- created once, not per attach: `clear = true` inside a callback would wipe the
 -- autocmds of every buffer that attached before this one
-local document_highlight =
-    vim.api.nvim_create_augroup('lsp_document_highlight', { clear = true })
+local document_highlight = vim.api.nvim_create_augroup('lsp_document_highlight', { clear = true })
 local auto_format = vim.api.nvim_create_augroup('auto_format', { clear = true })
 local autocmd = vim.api.nvim_create_autocmd
 local lsp = vim.lsp.buf
@@ -41,7 +40,6 @@ capabilities.code_action = {
         vim.keymap.set({ 'n', 'v' }, '<leader>a', require('fastaction').code_action, {
             buf = bufnr,
             desc = 'Show code actions for the current cursor position or range selection',
-            noremap = true,
             silent = true,
         })
     end,
@@ -53,7 +51,6 @@ capabilities.code_lens = {
         vim.keymap.set('n', '<leader>l', vim.lsp.codelens.run, {
             buf = bufnr,
             desc = 'Run codelens on current line',
-            noremap = true,
             silent = true,
         })
         vim.lsp.codelens.enable(true, { bufnr = bufnr })
@@ -66,7 +63,6 @@ capabilities.declaration = {
         vim.keymap.set('n', 'gD', lsp.declaration, {
             buf = bufnr,
             desc = 'Go to declaration of symbol under cursor',
-            noremap = true,
             silent = true,
         })
     end,
@@ -78,7 +74,6 @@ capabilities.definition = {
         vim.keymap.set('n', 'gd', lsp.definition, {
             buf = bufnr,
             desc = 'Go to definition of symbol under cursor',
-            noremap = true,
             silent = true,
         })
     end,
@@ -145,7 +140,6 @@ capabilities.inlay_hints = {
         vim.keymap.set('n', 'gi', toggle_inlay_hints, {
             buf = bufnr,
             desc = 'Toggle inlay hints',
-            noremap = true,
             silent = true,
         })
     end,
@@ -161,7 +155,6 @@ capabilities.inline_completion = {
             buf = bufnr,
             desc = 'Accept the current inline completion',
             expr = true,
-            noremap = true,
             silent = true,
         })
     end,
@@ -221,7 +214,6 @@ capabilities.range_formatting = {
                 end,
             }
         end, {
-            noremap = true,
             silent = true,
             buf = bufnr,
             desc = 'Range code formatting',
@@ -236,7 +228,6 @@ capabilities.rename = {
         vim.keymap.set('n', 'gR', '<cmd>FlutterRename<cr>', {
             buf = bufnr,
             desc = 'Flutter: Rename variable and related imports',
-            noremap = true,
             silent = true,
         })
     end,
@@ -247,7 +238,6 @@ capabilities.signature_help = {
     callback = function(_, bufnr)
         vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, {
             buf = bufnr,
-            noremap = true,
             silent = true,
             desc = 'Show signature help',
         })
@@ -264,7 +254,6 @@ capabilities.symbol = {
             {
                 buf = bufnr,
                 desc = 'View Workspace symbols',
-                noremap = true,
                 silent = true,
             }
         )
@@ -277,7 +266,6 @@ capabilities.type_definition = {
         vim.keymap.set('n', '<leader>gnd', lsp.type_definition, {
             buf = bufnr,
             desc = 'Show type definition of symbol under cursor',
-            noremap = true,
             silent = true,
         })
     end,

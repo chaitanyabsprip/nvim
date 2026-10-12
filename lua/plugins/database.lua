@@ -59,7 +59,6 @@ return {
             {
                 '<leader>dt',
                 '<cmd>DBUIToggle<cr>',
-                noremap = true,
                 silent = true,
                 desc = 'DB: Toggle database ui',
             },

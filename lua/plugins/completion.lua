@@ -94,7 +94,6 @@ return {
                 '<cmd>CopilotChatToggle<cr>',
                 desc = 'Copilot Chat',
                 mode = { 'n', 'v' },
-                noremap = true,
                 silent = true,
             },
         },

@@ -22,7 +22,6 @@ return {
             {
                 '<c-b>',
                 function() require('harpoon'):list():add() end,
-                noremap = true,
                 desc = 'Add file to harpoon',
             },
             {
@@ -31,31 +30,26 @@ return {
                     local harpoon = require 'harpoon'
                     harpoon.ui:toggle_quick_menu(harpoon:list())
                 end,
-                noremap = true,
                 desc = 'Toggle harpoon marks list',
             },
             {
                 '<leader>1',
                 function() require('harpoon'):list():select(1) end,
-                noremap = true,
                 desc = 'Jump to file 1 in harpoon',
             },
             {
                 '<leader>2',
                 function() require('harpoon'):list():select(2) end,
-                noremap = true,
                 desc = 'Jump to file 2 in harpoon',
             },
             {
                 '<leader>3',
                 function() require('harpoon'):list():select(3) end,
-                noremap = true,
                 desc = 'Jump to file 3 in harpoon',
             },
             {
                 '<leader>4',
                 function() require('harpoon'):list():select(4) end,
-                noremap = true,
                 desc = 'Jump to file 4 in harpoon',
             },
         },

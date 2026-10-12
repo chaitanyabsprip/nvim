@@ -37,25 +37,21 @@ return {
             {
                 '<leader>gfi',
                 '<cmd>GoIfErr<cr>',
-                noremap = true,
                 desc = 'Go: Autofill If-err block',
             },
             {
                 '<leader>gfs',
                 '<cmd>GoFillStruct<cr>',
-                noremap = true,
                 desc = 'Go: Autofill Struct with fields',
             },
             {
                 '<leader>gfw',
                 '<cmd>GoFillSwitch<cr>',
-                noremap = true,
                 desc = 'Go: Autofill Switch with cases',
             },
             {
                 '<leader>gfp',
                 'GoFixPlurals',
-                noremap = true,
                 desc = 'Go: Auto collate plural params with same type',
             },
         },
