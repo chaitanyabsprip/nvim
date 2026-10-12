@@ -204,7 +204,7 @@ config.setup = function()
     vim.o.updatetime = 1000
 
     -- executing external commands
-    vim.o.shell = '/usr/bin/env zsh'
+    if vim.fn.executable 'zsh' == 1 then vim.o.shell = '/usr/bin/env zsh' end
 
     -- running make and jumping to errors (quickfix)
     vim.go.grepprg = 'rg --vimgrep --no-heading --smart-case --multiline'
