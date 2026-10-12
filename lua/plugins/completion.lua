@@ -57,37 +57,6 @@ return {
     { 'Nash0x7E2/awesome-flutter-snippets', ft = { 'dart' } },
     { 'natebosch/dartlang-snippets', ft = 'dart' },
     {
-        'CopilotC-Nvim/CopilotChat.nvim',
-        enabled = false,
-        dependencies = {
-            { 'zbirenbaum/copilot.lua' },
-            { 'nvim-lua/plenary.nvim' }, -- for curl, log wrapper
-        },
-        build = 'make tiktoken', -- Only on MacOS or Linux
-        keys = {
-            {
-                '<leader>cc',
-                '<cmd>CopilotChatToggle<cr>',
-                desc = 'Copilot Chat',
-                mode = { 'n', 'v' },
-                silent = true,
-            },
-        },
-        cmd = {
-            'CopilotChat',
-            'CopilotChatOpen',
-            'CopilotChatClose',
-            'CopilotChatToggle',
-            'CopilotChatStop',
-            'CopilotChatReset',
-            'CopilotChatSave',
-            'CopilotChatLoad',
-            'CopilotChatDebugInfo',
-            'CopilotChatModels',
-            'CopilotChatAgents',
-        },
-    },
-    {
         'zbirenbaum/copilot.lua',
         enabled = false,
         event = 'InsertEnter',
